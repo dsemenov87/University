@@ -1,0 +1,24 @@
+﻿@model IEnumerable<University.ViewModels.AllStudentInstructors>
+
+@{
+    ViewBag.Title = "Instructors of All Students";
+}
+
+<h2>Instructors of All Students</h2>
+
+<table>
+    <tr>
+        <th>
+            Name
+        </th>
+    </tr>
+
+    @foreach (var item in Model)    
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Instructor)
+            </td>
+        </tr>
+    }
+</table>

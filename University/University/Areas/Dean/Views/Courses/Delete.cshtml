@@ -1,0 +1,58 @@
+﻿@model University.Models.Course
+
+@using (Ajax.BeginForm(
+                new AjaxOptions
+                    {
+                        HttpMethod = "POST",
+                        OnSuccess = "AdvancedDataList.onDeleteSuccess"
+                    }))
+{
+    @Html.AntiForgeryToken()
+    
+    @Html.HiddenFor(model => model.CourseID)
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Заголовок модального окна -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Delete instructor</h4>
+            </div>
+            <!-- Основной текст сообщения -->
+            <div class="modal-body">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.CourseName)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.CourseName)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.InstructorLastName)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.InstructorLastName)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.InstructorFirstName)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.InstructorFirstName)
+                    </dd>
+
+                </dl>
+            </div>
+            <!-- Нижняя часть модального окна -->
+            <div class="modal-footer">
+                <input type="submit" class="btn btn-success" value="Delete" />
+                <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+            </div>
+        </div>
+    </div>
+}
+

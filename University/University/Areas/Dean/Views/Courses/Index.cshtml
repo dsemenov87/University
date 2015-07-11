@@ -1,0 +1,78 @@
+﻿<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Instructors";
+}
+
+<!-- HTML код диалогового окна-->
+<div id="modalForm" class="modal fade"></div>
+
+<h2>Instructors</h2>
+
+<br />
+
+<script type="text/html" id="ManagePanel">
+    <input type="search" class="form-control" placeholder="Search" data-bind="value: searchText">
+    <button type="button" class="btn btn-default" data-bind="click: applyFilter"><span class="glyphicon glyphicon-search"></span></button>
+    <div class="input-group-btn">
+        <a id="btnCreate" href="#" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></a>
+        <a id="btnUpdate" href="#" class="btn btn-default"><span class="glyphicon glyphicon-edit"></span></a>
+        <a id="btnAddItem" href="#" class="btn btn-default"><span class="glyphicon glyphicon-user"></span></a>
+        <a id="btnDelete" href="#" class="btn btn-default"><span class="glyphicon glyphicon-folder-close"></span></a>
+    </div>
+</script>
+
+
+<div class="input-group" data-bind="template: { name: 'ManagePanel' }"></div>
+
+<br />
+
+
+<script type="text/html" id="TableRow">
+    <tr>
+        <td><input type="checkbox"></td>
+        <td data-bind="text: LastName"></td>
+        <td data-bind="text: FirstName"></td>
+        <td data-bind="text: Course"></td>
+    </tr>
+</script>
+
+<table class="table table-striped table-hover">
+    <thead>
+        <tr data-bind="on: { 'click th': 'sortBy', data: 'name' }">
+            <th>
+                <a href="@Url.Action("Index")">
+                    <span class="glyphicon glyphicon-refresh"></span>
+                </a>
+            </th>
+            <th data-name="LastName"><a href="#">Last Name</a></th>
+            <th data-name="FirstName"><a href="#">First name</a></th>
+            <th data-name="Course"><a href="#">Course</a></th>
+        </tr>
+    </thead>
+    <tbody data-bind="template: { name: 'TableRow', foreach: rows }"></tbody>
+</table>
+
+<script type="text/html" id="PagingPanel">
+    Page
+    <span data-bind="text: PageNumber" /> of
+    <span data-bind="text: TotalPagesCount" />.
+    <br />
+    <ul class="pagination">
+        <li><a href="#next" data-bind="click: back"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
+        <li><a href="#next" data-bind="click: next"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
+    </ul>
+</script>
+<div class="pagination-container" data-bind="template: { name: 'PagingPanel', data: paging }" ></div> 
+
+@section scripts {
+    <script src="~/Scripts/ajax-grid-view-model.js"></script>
+    <script>
+
+        ko.applyBindings(new AjaxGridViewModel('@Url.Action("List")'))
+
+    </script>
+
+}
+
+
