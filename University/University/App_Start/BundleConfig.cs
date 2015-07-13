@@ -26,7 +26,9 @@ namespace University
 
             bundles.Add(new ScriptBundle("~/bundles/knockout").Include(
                      "~/Scripts/knockout-3.3.0.debug.js",
-                     "~/Scripts/ko-binding-handlers.js"));
+                     "~/Scripts/ko-binding-handlers.js",
+                     "~/Scripts/ajax-grid-view-model.js",
+                     "~/Scripts/nav-panel-view-model.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/common").Include(
                         "~/Scripts/common.js"));

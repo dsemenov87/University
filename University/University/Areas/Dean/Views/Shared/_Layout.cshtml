@@ -11,33 +11,8 @@
     @Scripts.Render("~/bundles/knockout")
 </head>
 <body>
-   
-    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-        <div class="container-fluid">
-
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">Students</a></li>
-                    <li><a href="#">Instructors</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reports <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Действие</a></li>
-                            <li><a href="#">Другое действие</a></li>
-                            <li><a href="#">Что-то еще</a></li>
-                        </ul>
-                    </li>
-                </ul>
-                <p class="navbar-text">Count of students: <strong>43</strong></p>
-                <p class="navbar-text">Count of instructors: <strong>12</strong></p>
-                <p class="navbar-text navbar-right"><strong>@DateTime.Now.ToShortTimeString()</strong></p>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#">Login <span class="glyphicon glyphicon-log-in"></span></a></li>
-                </ul>
-            </div><!-- /.navbar-collapse -->
-        </div><!-- /.container-fluid -->
-    </nav>
+    
+    @Html.Partial("NavigationPanel")
 
     <div class="container body-content">
         @RenderBody()
@@ -46,6 +21,21 @@
             <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
         </footer>
     </div>
+    
+    <script>
+        var viewModel = {
+            navbar: new NavPanelViewModel([
+                { caption: 'Students', url: '@Url.Action("~/Dean/Students")' },
+                { caption: 'Instructors', url: '@Url.Action("~/Dean/Instructors")' },
+                { caption: 'Total student instructors', url: '@Url.Action("~/Dean/AllStudentsInstructor")' }
+            ], '/Home')
+        };
+    </script>
+
     @RenderSection("scripts", required: false)
+
+    <script>
+        ko.applyBindings(viewModel);
+    </script>
 </body>
 </html>

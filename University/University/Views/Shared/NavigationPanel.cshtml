@@ -1,0 +1,28 @@
+﻿
+<!-- ko with: navbar -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"> 
+             <ul class="nav navbar-nav" data-bind="foreach: links">
+                     <li><a data-bind="attr: { href: url }, text: caption"></a></li>
+            </ul>
+            
+            <p class="navbar-text">
+                Count of students: <strong data-bind="text: countOfStudents()"></strong>
+            </p>
+             
+            <p class="navbar-text">
+                Count of instructors: <strong data-bind="text: countOfInstructors()"></strong>
+            </p>
+            
+            <p class="navbar-text navbar-right">
+                <strong data-bind="text: currentTime()"></strong>
+            </p>
+            
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">Login <span class="glyphicon glyphicon-log-in"></span></a></li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+<!-- /ko -->

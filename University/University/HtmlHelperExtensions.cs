@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using Newtonsoft.Json;
 
 namespace System.Web.Mvc
@@ -10,7 +11,6 @@ namespace System.Web.Mvc
         static HtmlHelperExtensions()
         {
             settings = new JsonSerializerSettings();
-            // CamelCase: "MyProperty" will become "myProperty"
             settings.ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver();
         }
 

@@ -8,7 +8,7 @@ using Ninject;
 using University.Models.DAL;
 using University.ViewModels;
 
-namespace University.Controllers
+namespace University.Areas.Dean.Controllers 
 {
     public class AllStudentsInstructorController : Controller
     {
@@ -16,14 +16,21 @@ namespace University.Controllers
         public SchoolContext Db { get; set; }
         
         // GET: AllStudentsInstructor
-        public ActionResult Index()
+         [HttpGet]
+        public ActionResult Index(int? id)
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult List(int pageNumber = 1)
         {
             var instructors
                 = from course in Db.Courses
                   where course.Enrollments.Count() == Db.Students.Count()
-                  select new AllStudentInstructors() { Instructor = string.Concat(course.InstructorFirstName, course.InstructorLastName)  };
+                  select new AllStudentInstructors() { Instructor = string.Concat(course.InstructorFirstName, course.InstructorLastName) };
 
-            return View(instructors.ToList());
+            return Json(instructors.ToList());
         }
     }
 }

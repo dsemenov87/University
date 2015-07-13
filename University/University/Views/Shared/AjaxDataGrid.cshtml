@@ -1,0 +1,81 @@
+﻿ 
+<!-- ko with: grid -->
+<div class="input-group">
+    <!-- ko if: searchBox -->
+    <!-- ko with: searchBox -->
+    <input type="search" class="form-control" placeholder="Search" data-bind="value: text">
+    <!-- /ko -->
+    <button type="button" class="btn btn-default" data-bind="click: applyFilter">
+        <span class="glyphicon glyphicon-search"></span>
+    </button>
+    <!-- /ko -->
+    <div class="input-group-btn" data-bind="foreach: buttons">
+        <a href="#" class="btn btn-default" data-bind="click: action">
+            <!-- ko if: name == 'Create' -->
+            <span class="glyphicon glyphicon-plus"></span>
+            <!-- /ko -->
+            <!-- ko if: name == 'Edit' -->
+            <span class="glyphicon glyphicon-edit"></span>
+            <!-- /ko -->
+            <!-- ko if: name == 'AddItem' -->
+            <span class="glyphicon glyphicon-user"></span>
+            <!-- /ko -->
+            <!-- ko if: name == 'Delete' -->
+            <span class="glyphicon glyphicon-folder-close"></span>
+            <!-- /ko -->
+        </a>
+    </div>
+</div>
+
+<br />
+
+<!-- HTML код диалогового окна-->
+<div id="modalForm" class="modal fade"></div>
+
+<br />
+
+<table class="table table-striped table-hover">
+    <thead>
+        <tr data-bind="on: { 'click th': 'sortBy', data: 'name' }">
+            <th>
+                <a href="@Url.Action("Index")">
+                    <span class="glyphicon glyphicon-refresh"></span>
+                </a>
+            </th>
+            <!-- ko foreach: columns -->
+            <!-- ko ifnot: title === 'Id' -->
+            <th data-bind="attr: {'data-name': title}">
+                <a href="#">
+                    <span data-bind="text: title"></span>
+                </a>
+            </th>
+            <!-- /ko -->
+            <!-- /ko -->
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: { data: viewRows, as: 'row' }">
+        <tr>
+            <td><input type="checkbox" data-bind="value: Id, checked: $parent.selectedRows"></td>
+            <!-- ko foreach: { data: $parent.columns, as: 'col' } -->
+            <!-- ko ifnot: col.title === 'Id' -->
+            <td data-bind="text: row[col.title]"></td>
+            <!-- /ko -->
+            <!-- /ko -->
+        </tr>
+    </tbody>
+</table>
+
+<br />
+
+<div class="pagination-container" data-bind="with: paging">
+    <strong>Page
+    <span data-bind="text: pageNumber"></span>  of
+    <span data-bind="text: totalPagesCount"></span></strong>
+    <br />
+    <ul class="pagination">
+        <li><a href="#next" data-bind="click: back"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
+        <li><a href="#next" data-bind="click: next"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
+    </ul>
+</div> 
+
+<!-- /ko -->

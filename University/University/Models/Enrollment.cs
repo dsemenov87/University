@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace University.Models
 {
@@ -13,11 +14,13 @@ namespace University.Models
 
     public sealed class Enrollment
     {
-        [Key]
-        public int EnrollmentID { get; set; }
+        [Key, Column(Order = 1)]
         public int CourseID { get; set; }
+
+        [Key, Column(Order = 2)]
         public int StudentID { get; set; }
-        public Grade Grade { get; set; }
+        
+        public Grade? Grade { get; set; }
 
         public Course Course { get; set; }
         public Student Student { get; set; }

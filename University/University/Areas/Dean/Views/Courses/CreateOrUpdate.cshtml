@@ -4,7 +4,7 @@
                 new AjaxOptions
                     {
                         HttpMethod = "POST",
-                        OnSuccess = "AdvancedDataList.onCreateOrUpdateSuccess"
+                        OnSuccess = "viewModel.grid.onCreateOrUpdateSuccess"
                     }))
 {
     @Html.AntiForgeryToken()

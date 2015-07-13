@@ -1,0 +1,12 @@
+﻿<script type="text/html" id="PagingPanel">
+    Page
+    <span data-bind="text: PageNumber" /> of
+    <span data-bind="text: TotalPagesCount" />.
+    <br />
+    <ul class="pagination">
+        <li><a href="#next" data-bind="click: back"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
+        <li><a href="#next" data-bind="click: next"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
+    </ul>
+</script>
+<div class="pagination-container" data-bind="template: { name: 'PagingPanel', data: paging }"></div> 
+

@@ -1,0 +1,45 @@
+﻿
+@model IEnumerable<University.Models.Student>
+@using University.Models
+
+@using (Ajax.BeginForm(new AjaxOptions { HttpMethod = "POST", OnSuccess = "viewModel.grid.onAddItemSuccess"}))
+{
+    <input type="hidden" name="CourseId" value="@ViewBag.CourseId" />
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Заголовок модального окна -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Select students</h4>
+            </div>
+            <!-- Основной текст сообщения -->
+            <div class="modal-body">
+
+                <div class="form-group">
+
+                    <select class="form-control" id="students" multiple="multiple" name="Students" size="20">
+                        @foreach (var item in Model)
+                        {
+                            if ((ViewBag.SelectedList as List<int>).Contains(item.StudentID))
+                            {
+                                <option value="@item.StudentID" selected>@item.FullName</option>
+                            }
+                            else
+                            {
+                                <option value="@item.StudentID">@item.FullName</option>
+                            }
+
+                        }
+                    </select>
+                </div>
+
+            </div>
+            <!-- Нижняя часть модального окна -->
+            <div class="modal-footer">
+                <input type="submit" class="btn btn-success" value="Save" />
+                <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+            </div>
+        </div>
+    </div>
+
+}

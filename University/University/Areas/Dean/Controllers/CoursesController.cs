@@ -15,50 +15,23 @@ using PagedList;
 
 namespace University.Areas.Dean.Controllers
 {
-    public class PagingData
-    {
-        public int PageNumber { get; set; }
-        public int TotalPagesCount { get; set; }
-    }
-
-    public class ListResult
-    {
-        public IEnumerable<Course> Data { get; set; }
-        public PagingData Paging { get; set; }
-    }
-    
     public class CoursesController : Controller
     {
         [Inject]
         public SchoolContext db { get; set; }
 
-        /*[HttpGet]
-        public ActionResult Index()
-        {
-            return View();  
-        }*/
-
         [HttpPost]
         public ActionResult List(int pageNumber = 1)
         {
-            var data = new
-            {
-                Data = db.Courses
+            return Json(db.Courses
                 .Select(i => new 
                 { 
+                    Id = i.CourseID,
                     FirstName = i.InstructorFirstName,
                     LastName = i.InstructorLastName,
                     Course = i.CourseName
                 })
-                .ToList(),
-                Paging = new PagingData
-                {
-                    PageNumber = pageNumber,
-                    TotalPagesCount = db.Courses.Count() / 3 + 1
-                }
-            };
-
-            return Json(data);
+                .ToList());
         }
 
         // GET: Courses
@@ -144,6 +117,7 @@ namespace University.Areas.Dean.Controllers
                     bool isNew = model.CourseID == 0;
                     if (isNew) {
                         db.Courses.Add(model);
+                        model.CourseID = db.Courses.Max(i => i.CourseID) + 1;
                     }
                     else {
                         db.Entry(model).State = EntityState.Modified;
@@ -151,12 +125,12 @@ namespace University.Areas.Dean.Controllers
                     db.SaveChanges();
                     return Json(new
                     {
-                        isValid = true,
-                        id = model.CourseID,
-                        lastName = model.InstructorLastName,
-                        firstName = model.InstructorFirstName,
-                        courseName = model.CourseName,
-                        isNew = isNew
+                        IsValid = true,
+                        Id = model.CourseID,
+                        LastName = model.InstructorLastName,
+                        FirstName = model.InstructorFirstName,
+                        Course = model.CourseName,
+                        IsNew = isNew
                     });
                 }
             }
@@ -169,6 +143,57 @@ namespace University.Areas.Dean.Controllers
             return Json(new Object() /*TO DO*/);
         }
 
+
+        [HttpGet]
+        public ActionResult AddItem(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Course model = db.Courses.Find(id);
+            if (model == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.CourseId = id;
+
+            ViewBag.SelectedList = db.Students
+                .Where(s => s.Enrollments.Any(e => e.CourseID == id))
+                .Select(s => s.StudentID)
+                .ToList();
+
+            return PartialView("AddItem", db.Students.ToList());
+        }
+
+        [HttpPost]
+        public ActionResult AddItem(FormCollection form, int courseId)
+        {
+            var course = db.Courses.Find(courseId);
+            course.Enrollments.Clear();
+
+            var selectedValues = form["students"].Split(',');
+
+            foreach (var studentId in selectedValues)
+            {
+                course.Enrollments.Add(
+                    new Enrollment
+                    {
+                        Course = course,
+                        Grade = Grade.A,
+                        Student = db.Students.Find(int.Parse(studentId))
+                    }
+                );
+            }
+
+            db.SaveChanges();
+
+            return Json(new { IsValid = true });
+
+        }
+        
         // GET: Courses/Delete/5
         //[Authorize(Roles = "dean")]
         [HttpGet]
@@ -202,8 +227,8 @@ namespace University.Areas.Dean.Controllers
                 db.SaveChanges();
                 return Json(new
                 {
-                    isValid = true,
-                    id = model.CourseID
+                    IsValid = true,
+                    Id = model.CourseID
                 });
             }
             catch (DataException /* dex */)

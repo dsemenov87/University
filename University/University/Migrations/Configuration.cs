@@ -46,7 +46,6 @@ namespace University.Migrations
             );
 
             context.Enrollments.AddOrUpdate(
-              p => p.EnrollmentID,
                 new Enrollment { StudentID=1, CourseID=1050,Grade=Grade.A},
                 new Enrollment { StudentID=1, CourseID=4022,Grade=Grade.C},
                 new Enrollment { StudentID=1, CourseID=4041,Grade=Grade.B},
